@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A to do list application.">
+    <meta name="author" content="Pavelescu Victor">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+
+    <!--Reference to Font Awesome CSs-->
+    <script src="https://kit.fontawesome.com/11ca5c6315.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+</head>
+</body>
+    <section class="main">
+        <div class="main__content">
+            <div class="todo">
+                <div class="todo__content">
+                    <div class="content__sidebar">
+                        <div class="todo__topbar">
+                            <h1 class="todo__title">Checklist</h1>
+                        </div>
+                        <div class="sidebar__list">
+                            <h1>Lists</h1>
+                            <div class="list__content">
+                                <div class="list__item">
+                                    <p>Work tasks</p>
+                                </div>
+                                <div class="list__item">
+                                    <p>Workout</p>
+                                </div>
+                                <div class="list__item">
+                                    <p>Grocery List</p>
+                                </div>
+                            </div>
+                            <div class="add__content">
+                                <button class="add__button">
+                                    <p>Add</p>
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <div class="add__form">
+                                    <form>
+                                        <div class="add__input-wrapper">
+                                            <input type="text" class="form__input-add" placeholder="Enter list name">
+                                            <button class="form__button-add" type="submit">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebar__tags">
+                            <h1>Tags</h1>
+                            <div class="tags__content">
+                                <div class="tag">
+                                    <i class="fas fa-square"></i>
+                                    <p>Tag 1</p>
+                                </div>
+                                <div class="tag">
+                                    <i class="fas fa-square"></i>
+                                    <p>Tag 2</p>
+                                </div>
+                                <div class="tag">
+                                    <i class="fas fa-square"></i>
+                                    <p>Tag 3</p>
+                                </div>
+                            </div>
+                            <div class="add__content">
+                                <button class="add__button">
+                                    <p>Add</p>
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <div class="add__form">
+                                    <form>
+                                        <div class="add__input-wrapper">
+                                            <input type="text" class="form__input-add" placeholder="Enter tag name">
+                                            <button class="form__button-add" type="submit">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content__main">
+                        <div class="todo__topbar"></div>
+                        <div class="main__topbar-wrapper">
+                            <div class="topbar">
+                                <h1>List Name</h1>
+                                <i class="fas fa-plus-square"></i>
+                                <i class="fas fa-tasks"></i>
+                                <i class="fas fa-trash-alt"></i>
+                            </div>
+                            <div class="topbar__input">
+                                <form>
+                                    <div class="input-wrapper">
+                                        <input type="text" class="form__input">
+                                        <label for="tags">Choose a tag:</label>
+                                        <select id="tags" name="tags">
+                                            <option value="tag 1">Tag 1</option>
+                                            <option value="tag 2">Tag 2</option>
+                                            <option value="tag 3">Tag 3</option>
+                                            <option value="tag 4">Tag 4</option>
+                                        </select>
+                                        <button class="form__button" type="submit">
+                                            <i class="fas fa-plus-square"></i>
+                                        </button>
+                                    </div>
+                                    <ul class="tags__list">
+                                        <li>Tag 1</li>
+                                        <li>Tag 2</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                        <li>Tag 3</li>
+                                    </ul>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="main__list-wrapper">
+                            <ul class="main__list">
+                                <div class="list__element">
+                                    <div class="element__topbar">
+                                        <li>BLABLA</li>
+                                        <button>
+                                            <i class="fas fa-angle-left"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-check-square"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="element__tags">
+                                        <ul class="tags__list">
+                                            <li>Tag 1</li>
+                                            <li>Tag 2</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="list__element">
+                                    <div class="element__topbar">
+                                        <li>BLABLA</li>
+                                        <button>
+                                            <i class="fas fa-angle-left"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-check-square"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="element__tags">
+                                        <ul class="tags__list">
+                                            <li>Tag 1</li>
+                                            <li>Tag 2</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="list__element">
+                                    <div class="element__topbar">
+                                        <li>BLABLA</li>
+                                        <button>
+                                            <i class="fas fa-angle-left"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-check-square"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="element__tags">
+                                        <ul class="tags__list">
+                                            <li>Tag 1</li>
+                                            <li>Tag 2</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="list__element">
+                                    <div class="element__topbar">
+                                        <li>BLABLA</li>
+                                        <button>
+                                            <i class="fas fa-angle-left"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-check-square"></i>
+                                        </button>
+                                        <button>
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                    <div class="element__tags">
+                                        <ul class="tags__list">
+                                            <li>Tag 1</li>
+                                            <li>Tag 2</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                            <li>Tag 3</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="js/app.js"></script>
+</body>
+</html>
