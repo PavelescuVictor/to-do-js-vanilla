@@ -33,6 +33,7 @@
 
     --margin-blocks: var(--text-base-size);
     --border-radius-blocks: 15px;
+    --border-radius-circle: 50px;
 }
 
 /* BASE MODIFICATIONS */
@@ -55,6 +56,11 @@ html, body{
 
 textarea, select, input, button {
      outline: none; 
+}
+
+button{
+    background: none;
+    border: none;
 }
 
 /* Main. The whole page. */
@@ -87,21 +93,19 @@ textarea, select, input, button {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    border-top-left-radius: 50px;
-    border-top-right-radius: 50px;
+    border-top-left-radius: var(--border-radius-circle);
+    border-top-right-radius: var(--border-radius-circle);
 }
 
 .todo__topbar h1{
     flex: 1;
     font-size: 2.8rem;
-    padding-left: 0.6em;
     font-weight: 700;
+    padding-left: 0.6em;
     color: var(--darkest-purple-color);
 }
 
 .todo__content{
-    width: 100%;
-    height: 80%;
     display: grid;
     grid-template-columns: 1fr 3fr;
     grid-gap: var(--margin-blocks);
@@ -124,12 +128,12 @@ textarea, select, input, button {
 }
 
 .sidebar__list h1, .sidebar__tags h1{
-    text-align: center;
     background: var(--pink-color);
     color: #fff;
     font-size: 1.8rem;
-    line-height: 1.8em;
-    padding: 0.2em;
+    text-align: center;
+    letter-spacing: 0.1rem;
+    line-height: 2em;
 }
 
 .sidebar__tags h1{
@@ -145,6 +149,10 @@ textarea, select, input, button {
     border-bottom-left-radius: 15px;
     margin-bottom: var(--margin-blocks);
     padding: 1.4em 0.6em;
+}
+
+.list__item{
+    margin-bottom: var(--margin-blocks);
 }
 
 .list__item p{
@@ -165,6 +173,7 @@ textarea, select, input, button {
 .add__content{
     display: grid;
     grid-template-columns: 1fr 4fr;
+    grid-gap: var(--margin-blocks);
     font-size: 1.2rem;
     font-weight: 550;
     color: #fff;
@@ -177,34 +186,52 @@ textarea, select, input, button {
 }
 
 .add__form{
-    display: flex;
+    display: none;
 }
 
 .add__input-wrapper{
     display: grid;
-    grid-template-columns: 19fr 1fr;
-    grid-template-areas: "input button";
+    grid-template-columns: 1fr 1fr;
+    grid-gap: var(--margin-blocks);
     line-height: 2.5rem;
     justify-content: space-between;
+    align-items: center;
 }
 
 .form__input-add{
     border-radius: 50px;
     border: none;
     line-height: 3.4em;
-    padding-left: 0.8em;
-    margin-right: 0.8em;
 }
 
 .form__input-add{
-    grid-area: input;
     border-radius: 50px;
     border: none;
     padding-left: 0.8em;
 }
 
-.form__input-add button{
-    grid-area: button;
+.form__button-add{
+    width: 45px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    border-radius: 50%;
+    font-size: 1em;
+    transition: all 0.2s ease-in-out;
+}
+
+.form__button-add i{
+    padding: 0px;
+    margin: 0px;
+}
+
+.form__button-add:hover{
+    font-size: 1em;
+    border-radius: 15px;
+    background: var(--darkest-purple-color);
+    color: #fff;
 }
 
 /* TAGS ITEMS */
@@ -214,7 +241,6 @@ textarea, select, input, button {
     padding: 0.4rem;
     align-items: center;
     transition: all 0.2s ease-in-out;
-    cursor: pointer;
 }
 
 .tag:hover{
@@ -237,13 +263,13 @@ textarea, select, input, button {
     padding: 0.6em 0.8rem;
     justify-self: center;
     align-self: center;
+    background: #fff;
     border: none;
     border-radius: 50px;
     display: flex;
     justify-content: space-evenly;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-right: 0.4em;
     transition: all 0.2s ease-in-out;
 }
 
@@ -277,10 +303,12 @@ textarea, select, input, button {
     grid-template-columns: 85% 5% 5% 5%;
     align-items: center;
     background: var(--pink-color);
-    font-size: 1em;
+    font-size: 1.3rem;
+    letter-spacing: 0.1rem;
     position: relative;
-    padding: 0.8em;
-    
+    padding: 0.3em var(--margin-blocks);
+    border-bottom-right-radius: var(--border-radius-blocks);
+    border-bottom-left-radius: var(--border-radius-blocks);
 }
 
 .topbar h1{
@@ -289,10 +317,10 @@ textarea, select, input, button {
 }
 
 .topbar i{
-    font-size: 1.4em;
-    justify-self: center;
+    font-size: 1.8em;
     color: white;
     cursor: pointer;
+    align-self: center;
     padding: .2em;
     border-radius: 4px;
 }
@@ -305,7 +333,8 @@ textarea, select, input, button {
 /* TOPBAR HIDDEN INPUT */
 
 .topbar__input{
-    padding: 0.8em;
+    display: none;
+    padding: var(--margin-blocks);
     background: var(--dark-purple-color);
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
@@ -415,26 +444,28 @@ textarea, select, input, button {
 /* MAIN LIST */
 
 .main__list-wrapper {
-    background: var(--dark-purple-color);
+    background: var(--darkest-purple-color);
     flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    margin-bottom: 1em;
 }
 
 .main__list {
-    padding: 1em;
     list-style: none;
 }
 
 .list__element{
     display: flex;
     flex-direction: column;
-    margin-bottom: 0.2em;
-
+    background: var(--dark-purple-color);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    padding: var(--margin-blocks);
+    margin-bottom: var(--margin-blocks);
 }
 .element__topbar{
     display: grid;
@@ -464,4 +495,14 @@ textarea, select, input, button {
 
 .element__tags{
     padding: 1em 0em;
+}
+
+
+/* UTILITY CLASSES */
+
+
+.selected-list {
+    background: var(--darkest-purple-color);
+    color: #fff;
+    border-radius: 50px;
 }
