@@ -5,7 +5,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
 
+
 /* VARIABLE DECLARATIONS */
+
 
 :root{
     --text-base-size: 16px;
@@ -36,7 +38,9 @@
     --border-radius-circle: 50px;
 }
 
+
 /* BASE MODIFICATIONS */
+
 
 *{
     padding: 0;
@@ -63,7 +67,9 @@ button{
     border: none;
 }
 
+
 /* Main. The whole page. */
+
 
 .main{
     min-height: 100vh;
@@ -73,7 +79,9 @@ button{
     align-items: center;
 }
 
+
 /* Main Content. 80% of the page */
+
 
 .main__content{
     width: 80%;
@@ -111,7 +119,9 @@ button{
     grid-gap: var(--margin-blocks);
 }
 
+
 /* SIDEBAR*/
+
 
 .content__sidebar{
     display: flex;
@@ -119,7 +129,9 @@ button{
     flex-direction: column;
 }
 
+
 /* LIST and TAGS*/
+
 
 .sidebar__list, .sidebar__tags{
     flex: 0 1 auto;
@@ -225,16 +237,18 @@ button{
 .form__button-add i{
     padding: 0px;
     margin: 0px;
+    font-size: 1.5em;
 }
 
 .form__button-add:hover{
-    font-size: 1em;
     border-radius: 15px;
     background: var(--darkest-purple-color);
     color: #fff;
 }
 
+
 /* TAGS ITEMS */
+
 
 .tag{
     display: flex;
@@ -256,7 +270,9 @@ button{
     text-transform: capitalize;
 }
 
+
 /* ADD BUTTON FOR LIST AND TAGS */
+
 
 .add__button{
     cursor: pointer;
@@ -296,7 +312,9 @@ button{
     margin-bottom: 1em;
 }
 
+
 /* TOPBAR */
+
 
 .topbar{
     display: grid;
@@ -330,7 +348,9 @@ button{
     background: white;;
 }	
 
+
 /* TOPBAR HIDDEN INPUT */
+
 
 .topbar__input{
     display: none;
@@ -377,19 +397,23 @@ button{
 .tags__list{
     display: grid;
     grid-template-columns: repeat(auto-fill, 90px);
-    justify-content: space-between;
+    grid-gap: var(--margin-blocks);
+    padding-left: var(--margin-blocks);
+    justify-content: center;
     list-style: none;
+    padding-left: 16px;
 }
 
 .tags__list li{
     height: 30px;
+    width: 80%;
+    justify-self: flex-end;
     font-size: 1rem;
-    padding: 0.4em 0.4em;
-    margin: .5em 0.4em;
-    margin-left: 1.7em;
+    padding: 0.4em 0.4em 0.4em 0em;
+    text-align: center;
     color:var(--darkest-purple-color);
     font-weight: 700;
-    line-height: 1.2em;;
+    line-height: 1.2em;
     background: var(--yellow-color);
     -moz-border-radius-bottomright:4px;
 	-webkit-border-bottom-right-radius:4px;	
@@ -441,7 +465,9 @@ button{
     background: #fff;
 }
 
+
 /* MAIN LIST */
+
 
 .main__list-wrapper {
     background: var(--darkest-purple-color);
@@ -458,8 +484,6 @@ button{
 }
 
 .list__element{
-    display: flex;
-    flex-direction: column;
     background: var(--dark-purple-color);
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -469,32 +493,32 @@ button{
 }
 .element__topbar{
     display: grid;
-    grid-template-columns: 85% 5% 5% 5%; 
-    padding: 0.5em 1em;
+    grid-template-columns: 17fr 1fr 1fr 1fr; 
+    grid-gap: var(--margin-blocks);
+    padding: var(--margin-blocks);
     background: #fff;
-    border-radius: 50px;
+    border-radius: var(--border-radius-circle);
     font-size: 1.2em;
     line-height: 2em;
-    margin-bottom: 0.4em;
 }
 
 .element__topbar button{
     background: var(--darkest-purple-color);
     border: none;
     border-radius: 5px;
-    margin-left: 0.2em;
     color: #fff;
     cursor: pointer;
-    font-size: 1.3rem;
-    transition: all 0.2s ease-in-out;
+    font-size: 1.4rem;
+    transition: all 0.4s ease-in-out;
 }
 
 .element__topbar button:hover{
-    margin-bottom: 0.3em;
+    border-radius: 50px;
 }
 
 .element__tags{
-    padding: 1em 0em;
+    display: none;
+    padding-top: var(--margin-blocks);
 }
 
 
@@ -505,4 +529,9 @@ button{
     background: var(--darkest-purple-color);
     color: #fff;
     border-radius: 50px;
+}
+
+.element__button-clicked{
+    transform: rotate(-90deg);
+    transition: all 0.4s ease-in-out;
 }

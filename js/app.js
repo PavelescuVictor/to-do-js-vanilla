@@ -15,6 +15,11 @@ const classLists = getClassList();
 // Show topbar input form variables
 const showFormButton = document.querySelector(".topbar__button-plus");
 
+// Show tag list for each list element
+const showTagListButton = document.querySelector(".element__show-tag");
+
+// Delete list element button
+const deleteElementButton = document.querySelector(".element__delete");
 
 // Event Listeners
 addFormButton[0].addEventListener("click", switchAddFormState);
@@ -22,10 +27,15 @@ addFormButton[1].addEventListener("click", switchAddFormState);
 
 formInputAddButton[0].addEventListener("click", addList);
 formInputAddButton[1].addEventListener("click", addTag);
+formInputAddButton[2].addEventListener("click", addListElement);
 
 showFormButton.addEventListener("click", switchShowFormState);
 
 listContent.addEventListener("click", checkClickedElement);
+
+showTagListButton.addEventListener("click", showTagList);
+
+deleteElementButton.addEventListener("click", deleteListElement);
 
 
 // Functions
@@ -225,4 +235,73 @@ function updateTagListSelector(tagList){
             }
         })
     }
+}
+
+// Shows the tag list for each main list element
+function showTagList(event){
+    const elementTagList = document.querySelector(".element__tags");
+
+    if (elementTagList.style.display === "none" || elementTagList.style.display == ""){
+        elementTagList.style.display = "block";
+        event.currentTarget.classList.add("element__button-clicked");
+    }
+    else if (elementTagList.style.display === "block") {
+        elementTagList.style.display = "none";
+        event.currentTarget.classList.remove("element__button-clicked");
+    }
+    else {
+        elementTagList.style.display = "none";
+    }
+}
+
+// Add new list element
+function addListElement(event){
+    // Prevent form from submitting
+    event.preventDefault();
+
+    const formInput = document.querySelectorAll(".form__input-add")[2];
+    const elementList = document.querySelector(".main__list");
+
+    if (formInput.value !== ""){
+        const divOuter = document.createElement("div");
+        divOuter.classList.add("list__element");
+        const divInner = document.createElement("div");
+        divInner.classList.add("element__topbar");
+        const li = document.createElement("li");
+        li.innerText = formInput.value;
+        divInner.appendChild(li);
+        const buttonFirst = document.createElement("button");
+        const iFirst = document.createElement("i");
+        iFirst.classList.add("fas");
+        iFirst.classList.add("fa-angle-left");
+        buttonFirst.appendChild(iFirst);
+        const buttonSecond = document.createElement("button");
+        const iSecond = document.createElement("i");
+        iSecond.classList.add("fas");
+        iSecond.classList.add("fa-check-square");
+        buttonSecond.appendChild(iSecond);
+        const buttonThird = document.createElement("button");
+        const iThird = document.createElement("i");
+        iThird.classList.add("fas");
+        iThird.classList.add("fa-trash-alt");
+        buttonThird.appendChild(iThird);
+        divInner.appendChild(buttonFirst);
+        divInner.appendChild(buttonSecond);
+        divInner.appendChild(buttonThird);
+        divOuter.appendChild(divInner);
+        elementList.appendChild(divOuter);
+        formInput.value = "";
+    }
+    else {
+        formInput.placeholder = "Not valid";
+    }
+}
+
+// Delete element of the list
+function deleteListElement(event){
+    const element = event.currentTarget.parentNode.parentNode;
+    const parent = event.currentTarget.parentNode.parentNode.parentNode;
+    console.log(element);
+    console.log(parent)
+    parent.removeChild(element);
 }
