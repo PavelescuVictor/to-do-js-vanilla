@@ -16,10 +16,10 @@ const classLists = getClassList();
 const showFormButton = document.querySelector(".topbar__button-plus");
 
 // Show tag list for each list element
-const showTagListButton = document.querySelector(".element__show-tag");
+const showTagListButton = document.querySelectorAll(".element__show-tag");
 
 // Delete list element button
-const deleteElementButton = document.querySelector(".element__delete");
+const deleteElementButton = document.querySelectorAll(".element__delete");
 
 // Event Listeners
 addFormButton[0].addEventListener("click", switchAddFormState);
@@ -33,9 +33,13 @@ showFormButton.addEventListener("click", switchShowFormState);
 
 listContent.addEventListener("click", checkClickedElement);
 
-showTagListButton.addEventListener("click", showTagList);
+showTagListButton.forEach(element => {
+    element.addEventListener("click", showTagList);
+});
 
-deleteElementButton.addEventListener("click", deleteListElement);
+deleteElementButton.forEach(element => {
+    element.addEventListener("click", deleteListElement);
+})
 
 
 // Functions
@@ -64,7 +68,6 @@ function switchAddFormState(event){
 }
 
 function switchShowFormState(event){
-
     const parent = event.currentTarget.parentNode.parentNode;
     const formDiv = parent.querySelector(".topbar__input");
     const topbar = parent.querySelector(".topbar")
@@ -75,6 +78,28 @@ function switchShowFormState(event){
         const tagList = getTagList();
         updateTagListSelector(tagList);
         formDiv.style.display = "block";
+
+        // Adding event listeners for the select tag
+        const selectTag = document.getElementById("tags");
+        selectTag.selectedIndex = -1;
+        selectTag.addEventListener("change", (event) => {
+            const li = document.createElement("li");
+            li.innerText = event.target.value;
+
+            const tagsList = document.querySelector(".tags__list");
+            let tagListNames = [];
+            tagsList.querySelectorAll("li").forEach(tag => {
+                tagListNames.push(tag.innerText);
+            });
+
+            // Check if added tag not already in
+            if (!tagListNames.includes(li.innerText)){
+                tagsList.appendChild(li);
+            }
+            else {
+                event.currentTarget.parentNode.querySelector(".form__input-add").placeholder = `"${li.innerText}" already added.`;
+            }
+        })
     }
     else if (formDiv.style.display === "block") {
         topbar.style.borderBottomRightRadius = getComputedStyle(document.documentElement).getPropertyValue("--border-radius-blocks");
@@ -239,7 +264,7 @@ function updateTagListSelector(tagList){
 
 // Shows the tag list for each main list element
 function showTagList(event){
-    const elementTagList = document.querySelector(".element__tags");
+    const elementTagList = event.currentTarget.parentNode.parentNode.querySelector(".element__tags");
 
     if (elementTagList.style.display === "none" || elementTagList.style.display == ""){
         elementTagList.style.display = "block";
@@ -265,6 +290,7 @@ function addListElement(event){
     if (formInput.value !== ""){
         const divOuter = document.createElement("div");
         divOuter.classList.add("list__element");
+
         const divInner = document.createElement("div");
         divInner.classList.add("element__topbar");
         const li = document.createElement("li");
@@ -275,6 +301,10 @@ function addListElement(event){
         iFirst.classList.add("fas");
         iFirst.classList.add("fa-angle-left");
         buttonFirst.appendChild(iFirst);
+
+        // Add Event Listener to the first button(show tag list)
+        buttonFirst.addEventListener("click", showTagList);
+        
         const buttonSecond = document.createElement("button");
         const iSecond = document.createElement("i");
         iSecond.classList.add("fas");
@@ -285,12 +315,31 @@ function addListElement(event){
         iThird.classList.add("fas");
         iThird.classList.add("fa-trash-alt");
         buttonThird.appendChild(iThird);
+
+        // Add Event Listener to the third button(delete current element)
+        buttonThird.addEventListener("click", deleteListElement);
+
         divInner.appendChild(buttonFirst);
         divInner.appendChild(buttonSecond);
         divInner.appendChild(buttonThird);
         divOuter.appendChild(divInner);
         elementList.appendChild(divOuter);
+
+        // Adding tags list
+        const tagsList = event.currentTarget.parentNode.parentNode.querySelector(".tags__list").querySelectorAll("li");
+        const divInnerTags = document.createElement("div");
+        divInnerTags.classList.add("element__tags");
+        const ul = document.createElement("ul");
+        ul.classList.add("tags__list");
+        tagsList.forEach(tag => {
+            ul.appendChild(tag);
+        })
+        divInnerTags.appendChild(ul);
+        divOuter.appendChild(divInnerTags);
+
+        // Changing input value from the form to empty
         formInput.value = "";
+        formInput.placeholder = "Enter the name of the item";
     }
     else {
         formInput.placeholder = "Not valid";

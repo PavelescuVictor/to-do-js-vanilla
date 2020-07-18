@@ -36,6 +36,8 @@
     --margin-blocks: var(--text-base-size);
     --border-radius-blocks: 15px;
     --border-radius-circle: 50px;
+
+    --todo-topbar: 70px;
 }
 
 
@@ -74,9 +76,6 @@ button{
 .main{
     min-height: 100vh;
     background: var(--darkest-purple-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 
@@ -84,32 +83,32 @@ button{
 
 
 .main__content{
-    width: 80%;
+    min-height: 100vh;
+    width: 80vw;
     min-width: 50%;
+    margin: auto;
+    padding: 3vw 0em;
 }
 
-.todo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.todo{
+    min-height: 90vh;
+    width: 100%;
 }
 
 .todo__topbar{
-    width: 100%;
-    height: 70px;
+    min-height: var(--todo-topbar);
     background: var(--yellow-color);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
     border-top-left-radius: var(--border-radius-circle);
     border-top-right-radius: var(--border-radius-circle);
 }
 
 .todo__topbar h1{
-    flex: 1;
-    font-size: 2.8rem;
-    font-weight: 700;
-    padding-left: 0.6em;
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 100%;
+    font-size: 2.3em;
+    padding: var(--margin-blocks) calc(var(--margin-blocks) * 2) 0em calc(var(--margin-blocks) * 2);
     color: var(--darkest-purple-color);
 }
 
@@ -139,17 +138,24 @@ button{
     flex-direction: column;
 }
 
+.sidebar__list{
+    margin-bottom: var(--margin-blocks);
+}
+
 .sidebar__list h1, .sidebar__tags h1{
+    height: var(--todo-topbar);
+    display: inline-block;
     background: var(--pink-color);
     color: #fff;
-    font-size: 1.8rem;
-    text-align: center;
+    font-size: 1.rem;
+    text-align: left;
     letter-spacing: 0.1rem;
-    line-height: 2em;
+    padding: var(--margin-blocks) 0em;
+    padding-left: calc(var(--margin-blocks) * 2);
 }
 
 .sidebar__tags h1{
-    border-top-right-radius: 15px;
+    border-top-right-radius: var(--border-radius-blocks);
 }
 
 .list__content, .tags__content{
@@ -157,10 +163,10 @@ button{
     font-weight: 550;
     color: #fff;
     background: var(--dark-purple-color);
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: var(--border-radius-blocks);
+    border-bottom-left-radius: var(--border-radius-blocks);
     margin-bottom: var(--margin-blocks);
-    padding: 1.4em 0.6em;
+    padding: var(--margin-blocks);
 }
 
 .list__item{
@@ -169,16 +175,16 @@ button{
 
 .list__item p{
     display: inline-block;
-    padding: 0.6rem;
+    padding: calc(var(--margin-blocks) / 2) var(--margin-blocks);
     text-transform: capitalize;
-    border-radius: 50px;
+    border-radius: var(--border-radius-circle);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
 
 .list__item p:hover{
     background: var(--darkest-purple-color);
-    margin-left: 0.4rem;
+    margin-left: var(--margin-blocks);
     color: #fff;
 }
 
@@ -190,11 +196,10 @@ button{
     font-weight: 550;
     color: #fff;
     background: var(--dark-purple-color);
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    border-bottom-left-radius: 15px;
-    margin-bottom: var(--margin-blocks);
-    padding: 1.4em 0.6em;
+    border-top-right-radius: var(--border-radius-blocks);
+    border-bottom-right-radius: var(--border-radius-blocks);
+    border-bottom-left-radius: var(--border-radius-blocks);
+    padding: var(--margin-blocks);
 }
 
 .add__form{
@@ -211,15 +216,10 @@ button{
 }
 
 .form__input-add{
-    border-radius: 50px;
     border: none;
+    border-radius: var(--border-radius-circle);
     line-height: 3.4em;
-}
-
-.form__input-add{
-    border-radius: 50px;
-    border: none;
-    padding-left: 0.8em;
+    padding-left: var(--margin-blocks);
 }
 
 .form__button-add{
@@ -234,14 +234,8 @@ button{
     transition: all 0.2s ease-in-out;
 }
 
-.form__button-add i{
-    padding: 0px;
-    margin: 0px;
-    font-size: 1.5em;
-}
-
 .form__button-add:hover{
-    border-radius: 15px;
+    border-radius: var(--border-radius-blocks);
     background: var(--darkest-purple-color);
     color: #fff;
 }
@@ -252,17 +246,17 @@ button{
 
 .tag{
     display: flex;
-    padding: 0.4rem;
+    padding: var(--margin-blocks);
     align-items: center;
     transition: all 0.2s ease-in-out;
 }
 
 .tag:hover{
-    margin-left: 0.4rem;
+    margin-left: var(--margin-blocks);
 }
 
 .tag i{
-    margin-right: 0.4em;
+    margin-right: var(--margin-blocks);
     font-size: 1.3em;
 }
 
@@ -281,7 +275,7 @@ button{
     align-self: center;
     background: #fff;
     border: none;
-    border-radius: 50px;
+    border-radius: var(--border-radius-circle);
     display: flex;
     justify-content: space-evenly;
     font-size: 1.2rem;
@@ -294,6 +288,8 @@ button{
 }
 
 .add__button:hover{
+    background: var(--darkest-purple-color);
+    color: #fff;
     padding: 0.6em 1.2em;
 }
 
@@ -307,46 +303,50 @@ button{
 
 .main__topbar-wrapper{
     flex: 0 1 auto;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1em;
+    margin-bottom: var(--margin-blocks);
 }
+
 
 
 /* TOPBAR */
 
 
 .topbar{
+    height: var(--todo-topbar);
+    width: 100%;
+    padding: 0em var(--margin-blocks);
     display: grid;
-    grid-template-columns: 85% 5% 5% 5%;
+    grid-template-columns: 17fr 1fr 1fr 1fr;
+    grid-gap: var(--margin-blocks);
     align-items: center;
     background: var(--pink-color);
-    font-size: 1.3rem;
     letter-spacing: 0.1rem;
-    position: relative;
-    padding: 0.3em var(--margin-blocks);
     border-bottom-right-radius: var(--border-radius-blocks);
     border-bottom-left-radius: var(--border-radius-blocks);
 }
 
+.topbar button{
+    justify-self: flex-end;
+    transition: all 0.2s ease-in-out;;
+}
+
+.topbar button:hover{
+    color: var(--darkest-purple-color);
+    padding-bottom: var(--margin-blocks);
+}	
+
 .topbar h1{
-    color: white;
-    padding-left: 0.6em;
+    font-size: 1.8rem;
+    color: #fff;
 }
 
 .topbar i{
     font-size: 1.8em;
-    color: white;
+    padding: 0.4em;
+    color: #fff;
     cursor: pointer;
-    align-self: center;
-    padding: .2em;
-    border-radius: 4px;
+    align-self: flex-end;
 }
-
-.topbar i:hover{
-    color: black;
-    background: white;;
-}	
 
 
 /* TOPBAR HIDDEN INPUT */
@@ -356,8 +356,15 @@ button{
     display: none;
     padding: var(--margin-blocks);
     background: var(--dark-purple-color);
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: var(--border-radius-blocks);
+    border-bottom-right-radius: var(--border-radius-blocks);
+}
+
+.topbar__input form{
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-gap: var(--margin-blocks);
+    align-content: center;
 }
 
 .input-wrapper{
@@ -365,21 +372,13 @@ button{
     grid-template-columns: 15fr 4fr 1fr;
     grid-gap: 1rem;
     grid-template-areas: "input choose-tag button";
-    margin-bottom: 1rem;
     line-height: 2.5rem;
     justify-content: space-between;
 }
 
-.form__input{
-    grid-area: input;
-    border-radius: 50px;
-    border: none;
-    padding-left: 0.8em;
-}
-
 .input-wrapper label, select{
     grid-area: choose-tag;
-    border-radius: 50px;
+    border-radius: var(--border-radius-circle);
 }
 
 .input-wrapper select{
@@ -395,14 +394,73 @@ button{
 }
 
 .tags__list{
+    /*
     display: grid;
-    grid-template-columns: repeat(auto-fill, 90px);
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     grid-gap: var(--margin-blocks);
-    padding-left: var(--margin-blocks);
-    justify-content: center;
+    justify-content: space-between;
+    */
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
-    padding-left: 16px;
+    justify-content: space-between;
+    padding: 0em -var(--margin-blocks);
 }
+
+.tags__list::after{
+    content: "";
+    flex: auto;
+}
+
+.tags__list li{
+    height: 30px;
+    margin: var(--margin-blocks);
+    margin-bottom: var(--margin-blocks);
+    padding: 0em var(--margin-blocks);
+    line-height: 30px;
+    text-align: center;
+    color: var(--darkest-purple-color);
+    font-weight: 700;
+    background: var(--yellow-color);
+    -moz-border-radius-bottomright:4px;
+	-webkit-border-bottom-right-radius:4px;	
+	border-bottom-right-radius:4px;
+	-moz-border-radius-topright:4px;
+	-webkit-border-top-right-radius:4px;	
+    border-top-right-radius:4px;
+    position: relative;	
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+
+.tags__list li:before{
+    position: absolute;
+	content:"";
+    left:-16px;
+    top:0;
+	border-color:transparent var(--yellow-color) transparent transparent;
+	border-style:solid;
+	border-width:16px 16px 14px 0;	
+    transition: all 0.2s ease-in-out;	
+}	
+
+.tags__list li:after {
+	content:"";
+    position:absolute;
+    top: 50%;
+    left: 0px;
+    transform: translate(0, -50%);
+	width:4px;
+	height:4px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border-radius:2px;
+	background: var(--darkest-purple-color);
+    transition: all 0.2s ease-in-out;
+}
+
+/*
 
 .tags__list li{
     height: 30px;
@@ -452,6 +510,8 @@ button{
     transition: all 0.2s ease-in-out;
 }
 
+*/
+
 .tags__list li:hover {
     background:var(--darkest-purple-color);
     color: #fff;
@@ -491,6 +551,11 @@ button{
     padding: var(--margin-blocks);
     margin-bottom: var(--margin-blocks);
 }
+
+.list__element:last-child {
+    margin-bottom: 0px;
+}
+
 .element__topbar{
     display: grid;
     grid-template-columns: 17fr 1fr 1fr 1fr; 
@@ -503,17 +568,22 @@ button{
 }
 
 .element__topbar button{
-    background: var(--darkest-purple-color);
+    display: flex;
     border: none;
-    border-radius: 5px;
-    color: #fff;
+    color: var(--darkest-purple-color);
     cursor: pointer;
     font-size: 1.4rem;
-    transition: all 0.4s ease-in-out;
+    transition: all 0.2s ease-in-out;
+}
+
+.element__topbar button i{
+    flex:1;
+    justify-self: center;
+    align-self: center;
 }
 
 .element__topbar button:hover{
-    border-radius: 50px;
+    padding-bottom: var(--margin-blocks);
 }
 
 .element__tags{
@@ -528,7 +598,7 @@ button{
 .selected-list {
     background: var(--darkest-purple-color);
     color: #fff;
-    border-radius: 50px;
+    border-radius: var(--border-radius-circle);
 }
 
 .element__button-clicked{
