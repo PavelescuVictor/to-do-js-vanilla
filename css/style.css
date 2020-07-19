@@ -240,6 +240,10 @@ button{
     color: #fff;
 }
 
+#tags{
+    text-transform: capitalize;
+}
+
 
 /* TAGS ITEMS */
 
@@ -337,6 +341,7 @@ button{
 
 .topbar h1{
     font-size: 1.8rem;
+    text-transform: capitalize;
     color: #fff;
 }
 
@@ -417,6 +422,7 @@ button{
     margin: var(--margin-blocks);
     margin-bottom: var(--margin-blocks);
     padding: 0em var(--margin-blocks);
+    text-transform: capitalize;
     line-height: 30px;
     text-align: center;
     color: var(--darkest-purple-color);
