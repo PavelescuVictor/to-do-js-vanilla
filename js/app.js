@@ -306,7 +306,7 @@ function addList(event){
     const todoList = document.querySelector(".list__content");
 
     if (formInput.value !== ""){
-        if(!formInput.value.toLowerCase() in toDoAppData.getLists()){
+        if(!(formInput.value.toLowerCase() in toDoAppData.getLists())){
             formInput.placeholder ="Enter list name";
             const div = document.createElement("div");
             div.classList.add("list__item");
