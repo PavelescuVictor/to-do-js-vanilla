@@ -253,6 +253,7 @@ button{
     padding: var(--margin-blocks);
     align-items: center;
     transition: all 0.2s ease-in-out;
+    cursor: pointer;
 }
 
 .tag:hover{
@@ -556,6 +557,7 @@ button{
     border-bottom-right-radius: 15px;
     padding: var(--margin-blocks);
     margin-bottom: var(--margin-blocks);
+    transition: all 0.4s ease-in-out;
 }
 
 .list__element:last-child {
@@ -607,7 +609,25 @@ button{
     border-radius: var(--border-radius-circle);
 }
 
-.element__button-clicked{
+.element__button-clicked i{
     transform: rotate(-90deg);
     transition: all 0.4s ease-in-out;
+}
+
+.completed-element {
+    background: var(--yellow-color);
+    transition: all 0.4s ease-in-out;
+}
+
+.completed-tag li{
+    background: var(--dark-purple-color);
+    color: #fff; 
+}
+
+.completed-tag li::before{
+    border-color: transparent var(--dark-purple-color) transparent transparent;
+}
+
+.completed-tag li::after{
+    background: #fff;
 }
