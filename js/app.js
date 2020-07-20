@@ -10,8 +10,8 @@ class App {
         // Try to load from localStorage or load placeholders
         if(Object.keys(window.localStorage).length > 0){
             console.log("Loading From Local Storage");
-            console.log(this);
-            console.log(JSON.parse(localStorage.getItem("toDoAppData")));
+            //console.log(this);
+            //console.log(JSON.parse(localStorage.getItem("toDoAppData")));
             this.loadFromLocalStorage();
         }
         else {
@@ -82,10 +82,10 @@ class App {
 
     loadFromLocalStorage(){
         const app = JSON.parse(localStorage.getItem("toDoAppData"));
-        this.setSelectedListFlag(app["selectedListFlag"]);
+        this.setSelectedListFlag(false);
         this.setLists(app["lists"]);
         this.setTags(app["tags"]);
-        this.setSelectorTags(app["selectorTags"]);
+        //this.setSelectorTags(app["selectorTags"]);
 
         // Construct the lists
         const todoList = document.querySelector(".list__content");
@@ -138,7 +138,8 @@ class App {
     }
 
     deleteList(listName){
-        delete this.lists.listName;
+        delete this.lists[listName];
+        this.setSelectedListFlag(false);
 
         // Updating the localstorage
         this.toLocalStorage();
@@ -156,7 +157,13 @@ class App {
     }
 
     deleteTag(tagName){
-        this.tags.pop(tagName);
+        let filtered = this.tags;
+        filtered = filtered.filter(element => {
+            if(element != tagName){
+                return element;
+            }
+        });
+        this.tags = filtered;
 
         // Updating the localstorage
         this.toLocalStorage();
@@ -165,10 +172,6 @@ class App {
     }
 
     addListElement(listName, elementName, tagList){
-        console.log(listName);
-        console.log(elementName);
-        console.log(tagList);
-        console.log(this);
         this.lists[listName][elementName] = [];
         this.lists[listName][elementName] = tagList;
 
@@ -190,6 +193,21 @@ class App {
 
     addSelectorTags(selectorTag){
         this.selectorTags.push(selectorTag);
+
+        // Updating the localstorage
+        this.toLocalStorage();
+
+        //console.log(JSON.parse(localStorage.getItem("toDoAppData")));
+    }
+
+    deleteSelectorTags(selectorTag){
+        let filtered = this.selectorTags;
+        filtered = filtered.filter(element => {
+            if(element != selectorTag){
+                return element
+            }
+        });
+        this.selectorTags = filtered;
 
         // Updating the localstorage
         this.toLocalStorage();
@@ -218,13 +236,20 @@ formInputAddButton[2].addEventListener("click", addListElement);
 
 // Add event listener to the sidebar list of lists
 const listContent = document.querySelector(".list__content");
-listContent.addEventListener("click", checkClickedElement);
+listContent.addEventListener("click", checkClickedList);
 
 
 // Show topbar input form variables
 const showFormButton = document.querySelector(".topbar__button-plus");
 showFormButton.addEventListener("click", switchShowFormState);
 
+// Delete list event listener
+const deleteListButton = document.querySelector(".topbar__button-trash");
+deleteListButton.addEventListener("click", deleteList);
+
+// Delete tag event listener
+const tag = document.querySelector(".tags__content");
+tag.addEventListener("click", checkClickedTag);
 
 // Functions
 
@@ -357,6 +382,9 @@ function addTag(event){
             // Add tag to the main object
             toDoAppData.addTag(formInput.value.toLowerCase());
 
+            // Add tag to the main object selector tags
+            toDoAppData.addSelectorTags(formInput.value.toLowerCase());
+
             // Update Tag List Selector;
             updateTagListSelector()
 
@@ -372,11 +400,62 @@ function addTag(event){
     }
 }
 
-// Check the clicked element in the sidebar list content
-function checkClickedElement(event){
-    if (event.target.innerText === toDoAppData.getSelectedListFlag()){
+// Delete list 
+function deleteList(event){
+    if(!toDoAppData.getSelectedListFlag() === false){
+        const listName = event.currentTarget.parentNode.querySelector("h1").innerText;
+        const list = document.querySelector(".list__content");
+        const lists = document.querySelectorAll(".list__item");
+
+        // Deleting the list from the DOM
+        lists.forEach(l => {
+            if(l.querySelector("p").innerText === listName){
+                list.removeChild(l);
+            }
+        });
+
+        // Updating selected list in the DOM
+        event.currentTarget.parentNode.querySelector("h1").innerText = "";
+
+        // Updating displayed list element
+        const mainList = document.querySelector(".main__list");
+        const listElements = mainList.querySelectorAll(".list__element");
+        listElements.forEach(element =>{
+            mainList.removeChild(element);
+        });
+    
+
+        // Deleting list from the main object
+        toDoAppData.deleteList(listName.toLowerCase());
     }
-    else{ 
+    else{
+        console.log("No list selected");
+    }
+}
+
+// Delete tag
+function deleteTag(tagName){
+    const tagList = document.querySelector(".tags__content");
+    const tags = tagList.querySelectorAll(".tag");
+
+    // Deleting the tag from the DOM
+    tags.forEach(tag => {
+        if(tag.querySelector("p").innerText === tagName){
+            tagList.removeChild(tag);
+        }
+    });
+
+    // Deleting tag from the main object
+    toDoAppData.deleteTag(tagName.toLowerCase());
+
+    // Updating selector's tag list in the DOM
+    updateTagListSelector();
+    //console.log(JSON.parse(localStorage.getItem("toDoAppData")));
+}
+
+// Check the clicked element in the sidebar list content
+function checkClickedList(event){
+    if (!(event.target.innerText.toLowerCase() === toDoAppData.getSelectedListFlag())){
         let targetElement = event.target;
         let selector = "p";
         if (targetElement.nodeName === selector.toUpperCase()){
@@ -385,9 +464,21 @@ function checkClickedElement(event){
     
             // Update the local storage
             toDoAppData.toLocalStorage();
-    
             changeDisplayedList(targetElement.parentNode);
         }
+    }
+    else{
+        console.log("List already selected.");
+    }
+}
+
+// Check the clicked tag in the sidebar tag content
+function checkClickedTag(event){
+    let targetElement = event.target;
+    let selector = "p";
+    if(targetElement.nodeName === selector.toUpperCase()){
+        const tagName = targetElement.innerText;
+        deleteTag(tagName);
     }
 }
 
@@ -445,6 +536,9 @@ function changeDisplayedList(element){
             iSecond.classList.add("fas");
             iSecond.classList.add("fa-check-square");
             buttonSecond.appendChild(iSecond);
+
+            // Add Event Listener to the second button(element done)
+            buttonSecond.addEventListener("click", completeElement);
     
             const buttonThird = document.createElement("button");
             const iThird = document.createElement("i");
@@ -500,22 +594,21 @@ function updateTagListSelector(){
         });
     }
     else {
-        // Creating a list of new options to add in the tapbar selector
-        let optionList = [];
+        // Deleting every tag in the selector's tag list from the DOM
+        const tags = tagListSelector.querySelectorAll("option");
+        tags.forEach(tag => {
+            tagListSelector.removeChild(tag);
+            toDoAppData.deleteSelectorTags(tag.innerText.toLowerCase());
+        });
+
+        // Adding current tags from the sidebar tags list to the selector's tag list in the DOM
         toDoAppData.getTags().forEach(tag => {
             const option = document.createElement("option");
             option.value = tag;
             option.innerText = tag;
-            optionList.push(option);
+            tagListSelector.appendChild(option);
+            toDoAppData.addSelectorTags(tag.toLowerCase());
         });
-
-        // Adding the option to the topbar selector if its not contained in the array created above
-        optionList.forEach(option => {
-            if (!toDoAppData.getSelectorTags().includes(option.innerText)){
-                tagListSelector.appendChild(option);
-                toDoAppData.addSelectorTags(option.innerText.toLowerCase());
-            }
-        })
     }
 }
 
@@ -569,6 +662,10 @@ function addListElement(event){
             iSecond.classList.add("fas");
             iSecond.classList.add("fa-check-square");
             buttonSecond.appendChild(iSecond);
+
+            // Add Event Listener to the second button(element done)
+            buttonSecond.addEventListener("click", completeElement);
+
             const buttonThird = document.createElement("button");
             const iThird = document.createElement("i");
             iThird.classList.add("fas");
@@ -628,5 +725,20 @@ function deleteListElement(event){
     const elementName = elementTopbar.querySelector("li").innerText;
     const list = document.querySelector(".topbar");
     const listName = list.querySelector("h1").innerText;
-    toDoAppData.deleteElement(listName, elementName);
+    toDoAppData.deleteElement(listName.toLowerCase(), elementName.toLowerCase());
+}
+
+// Mark list element as completed element
+function completeElement(event){
+    const parent = event.currentTarget.parentNode.parentNode
+    if(parent.classList.contains("completed-element")){
+        parent.classList.remove("completed-element");
+        const tagsList = parent.querySelector(".tags__list");
+        tagsList.classList.remove("completed-tag");
+    }
+    else{
+        parent.classList.add("completed-element");
+        const tagsList = parent.querySelector(".tags__list");
+        tagsList.classList.add("completed-tag");
+    }
 }
