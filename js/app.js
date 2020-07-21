@@ -511,8 +511,8 @@ function addTag(event){
             toDoAppData.addSelectorTags(formInput.value.toLowerCase());
 
             // Update Tag List Selector;
-            updateTagListSelector()
-
+            const divName = "topbar__input";
+            updateTagListSelector(divName);
             formInput.value = "";
         }
         else{
