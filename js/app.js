@@ -249,7 +249,13 @@ class App {
     }
 
     addCompleteElement(listName, elementName){
-        this.completeElements[listName][elementName] = true;
+        if(listName in this.completeElements){
+            this.completeElements[listName][elementName] = true;
+        }
+        else{
+            this.completeElements[listName] = {}
+            this.completeElements[listName][elementName] = true;
+        }
 
         // Updating the localstorage
         this.toLocalStorage();
