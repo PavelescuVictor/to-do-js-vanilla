@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 </body>
+    <div class="back-top-button">
+        <i class="fas fa-chevron-up"></i>
+    </div>
     <div class="main">
         <div class="main__content">
             <div class="todo">
@@ -105,10 +108,24 @@
                                     <div class="input-wrapper">
                                         <input type="text" class="form__input-add" placeholder="Enter the name of the item" maxlength="15">
                                         <label for="tags"></label>
-                                        <select id="tags" name="tags">
+                                        <select class="tags" name="tags">
                                         </select>
                                         <button class="form__button-add" type="submit">
                                             <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <ul class="tags__list">
+                                    </ul>
+                                </form>
+                            </div>
+                            <div class="topbar__filter">
+                                <form>
+                                    <div class="filter-wrapper">
+                                        <label for="tags"></label>
+                                        <select class="tags" name="tags">
+                                        </select>
+                                        <button class="form__button-add" type="submit">
+                                            <i class="fas fa-search"></i>
                                         </button>
                                     </div>
                                     <ul class="tags__list">

@@ -6,6 +6,7 @@ class App {
         this.lists = {};
         this.tags = [];
         this.selectorTags = [];
+        this.completeElements = {};
         
         // Try to load from localStorage or load placeholders
         if(Object.keys(window.localStorage).length > 0){
@@ -56,6 +57,18 @@ class App {
         return this.selectorTags;
     }
 
+    getCompleteElements(){
+        return this.completeElements;
+    }
+
+    getCompleteElements(listName){
+        return this.completeElements[listName];
+    }
+
+    getCompleteElement(listName, elementName){
+        return this.completeElements[listName][elementName]
+    }
+
     setSelectedListFlag(selectedListFlag){
         this.selectedListFlag = selectedListFlag;
     }
@@ -72,6 +85,24 @@ class App {
         this.selectorTags = selectorTags;
     }
 
+    setcompleteElements(completeElements){
+        this.completeElements = completeElements;
+    }
+
+    containsCompleteElement(listName, completeElement){
+        if(listName in this.completeElements){
+            if(completeElement in this.completeElements[listName]){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false
+        }
+    }
+
     toLocalStorage(){
         localStorage.setItem('toDoAppData', JSON.stringify(this));
     }
@@ -82,10 +113,12 @@ class App {
 
     loadFromLocalStorage(){
         const app = JSON.parse(localStorage.getItem("toDoAppData"));
+        console.log(localStorage);
         this.setSelectedListFlag(false);
         this.setLists(app["lists"]);
         this.setTags(app["tags"]);
         //this.setSelectorTags(app["selectorTags"]);
+        this.setcompleteElements(app["completeElements"]);
 
         // Construct the lists
         const todoList = document.querySelector(".list__content");
@@ -214,6 +247,24 @@ class App {
 
         //console.log(JSON.parse(localStorage.getItem("toDoAppData")));
     }
+
+    addCompleteElement(listName, elementName){
+        this.completeElements[listName][elementName] = true;
+
+        // Updating the localstorage
+        this.toLocalStorage();
+
+        //console.log(JSON.parse(localStorage.getItem("toDoAppData")));
+    }
+    
+    removeCompleteElement(listName, elementName){
+        delete this.completeElements[listName][elementName];
+
+        // Updating the localstorage
+        this.toLocalStorage();
+
+        //console.log(JSON.parse(localStorage.getItem("toDoAppData")));
+    }
 }
 
 
@@ -232,6 +283,7 @@ const formInputAddButton = document.querySelectorAll(".form__button-add");
 formInputAddButton[0].addEventListener("click", addList);
 formInputAddButton[1].addEventListener("click", addTag);
 formInputAddButton[2].addEventListener("click", addListElement);
+formInputAddButton[3].addEventListener("click", filterResults);
 
 
 // Add event listener to the sidebar list of lists
@@ -241,7 +293,11 @@ listContent.addEventListener("click", checkClickedList);
 
 // Show topbar input form variables
 const showFormButton = document.querySelector(".topbar__button-plus");
-showFormButton.addEventListener("click", switchShowFormState);
+showFormButton.addEventListener("click", switchShowAddFormState);
+
+// Show topbar filter form variables
+const showFilterButton = document.querySelector(".topbar__button-taks");
+showFilterButton.addEventListener("click", switchShowFilterFormState);
 
 // Delete list event listener
 const deleteListButton = document.querySelector(".topbar__button-trash");
@@ -250,6 +306,10 @@ deleteListButton.addEventListener("click", deleteList);
 // Delete tag event listener
 const tag = document.querySelector(".tags__content");
 tag.addEventListener("click", checkClickedTag);
+
+// Back top button
+const scrollTopButton = document.querySelector(".back-top-button");
+scrollTopButton.addEventListener("click", scrollTop);
 
 // Functions
 
@@ -277,18 +337,22 @@ function switchAddFormState(event){
     }
 }
 
-function switchShowFormState(event){
+function switchShowAddFormState(event){
     const parent = event.currentTarget.parentNode.parentNode;
     const formDiv = parent.querySelector(".topbar__input");
+    const otherFormDiv = parent.querySelector(".topbar__filter");
     const topbar = parent.querySelector(".topbar")
+    const divName = "topbar__input";
 
     if (formDiv.style.display === "none" || formDiv.style.display == ""){
         topbar.style.borderBottomRightRadius = "0px";
         topbar.style.borderBottomLeftRadius = "0px";
         formDiv.style.display = "block";
-        updateTagListSelector();
+        otherFormDiv.style.display = "none";
+        updateTagListSelector(divName);
+
         // Adding event listeners for the select tag
-        const selectTag = document.getElementById("tags");
+        const selectTag = formDiv.querySelector(".tags");
         selectTag.selectedIndex = -1;
         selectTag.addEventListener("change", addTagToElement);
     }
@@ -296,9 +360,43 @@ function switchShowFormState(event){
         topbar.style.borderBottomRightRadius = getComputedStyle(document.documentElement).getPropertyValue("--border-radius-blocks");
         topbar.style.borderBottomLeftRadius = getComputedStyle(document.documentElement).getPropertyValue("--border-radius-blocks");
         formDiv.style.display = "none";
+        otherFormDiv.style = "block";
+
     }
     else {
         formDiv.style.display = "none";
+        otherFormDiv.style = "block";
+    }
+}
+
+function switchShowFilterFormState(event){
+    const parent = event.currentTarget.parentNode.parentNode;
+    const formDiv = parent.querySelector(".topbar__filter");
+    const otherFormDiv = parent.querySelector(".topbar__input");
+    const topbar = parent.querySelector(".topbar")
+    const divName = "topbar__filter";
+
+    if (formDiv.style.display === "none" || formDiv.style.display == ""){
+        topbar.style.borderBottomRightRadius = "0px";
+        topbar.style.borderBottomLeftRadius = "0px";
+        formDiv.style.display = "block";
+        otherFormDiv.style.display = "none";
+        updateTagListSelector(divName);
+
+        // Adding event listeners for the select tag
+        const selectTag = formDiv.querySelector(".tags");
+        selectTag.selectedIndex = -1;
+        selectTag.addEventListener("change", addTagToFilter);
+    }
+    else if (formDiv.style.display === "block") {
+        topbar.style.borderBottomRightRadius = getComputedStyle(document.documentElement).getPropertyValue("--border-radius-blocks");
+        topbar.style.borderBottomLeftRadius = getComputedStyle(document.documentElement).getPropertyValue("--border-radius-blocks");
+        formDiv.style.display = "none";
+        otherFormDiv.style = "block";
+    }
+    else {
+        formDiv.style.display = "none";
+        otherFormDiv.style = "block";
     }
 }
 
@@ -307,7 +405,8 @@ function addTagToElement(event){
     const li = document.createElement("li");
     li.innerText = event.target.value;
 
-    const tagsList = document.querySelector(".tags__list");
+    const formDiv = document.querySelector(".topbar__input");
+    const tagsList = formDiv.querySelector(".tags__list");
     let tagListNames = [];
     tagsList.querySelectorAll("li").forEach(tag => {
         tagListNames.push(tag.innerText);
@@ -316,6 +415,32 @@ function addTagToElement(event){
     // Check if added tag not already in
     if (!tagListNames.includes(li.innerText)){
         tagsList.appendChild(li);
+        li.addEventListener("click", (event) => {
+            tagsList.removeChild(li);
+        });
+    }
+    else {
+        event.currentTarget.parentNode.querySelector(".form__input-add").placeholder = `"${li.innerText}" already added.`;
+    }
+}
+
+function addTagToFilter(event){
+    const li = document.createElement("li");
+    li.innerText = event.target.value;
+
+    const formDiv = document.querySelector(".topbar__filter");
+    const tagsList = formDiv.querySelector(".tags__list");
+    let tagListNames = [];
+    tagsList.querySelectorAll("li").forEach(tag => {
+        tagListNames.push(tag.innerText);
+    });
+
+    // Check if added tag not already in
+    if (!tagListNames.includes(li.innerText)){
+        tagsList.appendChild(li);
+        li.addEventListener("click", (event) => {
+            tagsList.removeChild(li);
+        });
     }
     else {
         event.currentTarget.parentNode.querySelector(".form__input-add").placeholder = `"${li.innerText}" already added.`;
@@ -565,10 +690,125 @@ function changeDisplayedList(element){
                 const li = document.createElement("li");
                 li.innerText = tag;
                 ul.appendChild(li);
+                li.addEventListener("click", (event) => {
+                    ul.removeChild(li);
+                });
             })
             divInnerTags.appendChild(ul);
             divOuter.appendChild(divInnerTags);
+
+            // Check if completed element
+            if(toDoAppData.containsCompleteElement(listName.toLowerCase(), element.toLowerCase())){
+                divOuter.classList.add("completed-element");
+                const tagsList = divOuter.querySelector(".tags__list");
+                tagsList.classList.add("completed-tag");
+            }
         };
+    }
+}
+
+// Show filtered list
+function filterResults(event){
+    // Prevent form from submitting
+    event.preventDefault();
+    if(!toDoAppData.getSelectedListFlag() === false){
+        // Change list name in the main part of the application
+        const topbarListName = document.querySelector(".topbar h1");
+        topbarListName.innerText = toDoAppData.getSelectedListFlag() + " - Filtered"; 
+
+        // Display the correct list items;
+        const elementList = document.querySelector(".main__list");
+        const listName = toDoAppData.getSelectedListFlag();
+
+        // Deleting current list items if existent
+        const elements = elementList.querySelectorAll(".list__element");
+        elements.forEach(element => {
+            elementList.removeChild(element);
+        });
+        if(!elementList.children.length === 0){
+            console.log(elementList.children);
+        }
+        else{
+            for(element in toDoAppData.getLists()[listName]){
+                let okElementFlag = true;
+                const tagsList = toDoAppData.getLists()[listName][element];
+                const filterTagsDiv = document.querySelector(".topbar__filter");
+                const filterTags = filterTagsDiv.querySelectorAll("li");
+                filterTags.forEach(tag => {
+                    if(!tagsList.includes(tag.innerHTML.toLocaleLowerCase())) okElementFlag = false;
+                });
+                if(okElementFlag === true){
+                    const divOuter = document.createElement("div");
+                divOuter.classList.add("list__element");
+        
+                const divInner = document.createElement("div");
+                divInner.classList.add("element__topbar");
+                const li = document.createElement("li");
+                li.innerText = element;
+                divInner.appendChild(li);
+                const buttonFirst = document.createElement("button");
+                const iFirst = document.createElement("i");
+                iFirst.classList.add("fas");
+                iFirst.classList.add("fa-angle-left");
+                buttonFirst.appendChild(iFirst);
+        
+                // Add Event Listener to the first button(show tag list)
+                buttonFirst.addEventListener("click", showTagList);
+                
+                const buttonSecond = document.createElement("button");
+                const iSecond = document.createElement("i");
+                iSecond.classList.add("fas");
+                iSecond.classList.add("fa-check-square");
+                buttonSecond.appendChild(iSecond);
+
+                // Add Event Listener to the second button(element done)
+                buttonSecond.addEventListener("click", completeElement);
+        
+                const buttonThird = document.createElement("button");
+                const iThird = document.createElement("i");
+                iThird.classList.add("fas");
+                iThird.classList.add("fa-trash-alt");
+                buttonThird.appendChild(iThird);
+        
+                // Add Event Listener to the third button(delete current element)
+                buttonThird.addEventListener("click", deleteListElement);
+        
+                divInner.appendChild(buttonFirst);
+                divInner.appendChild(buttonSecond);
+                divInner.appendChild(buttonThird);
+                divOuter.appendChild(divInner);
+                elementList.appendChild(divOuter);
+        
+                // Adding tags list
+                const divInnerTags = document.createElement("div");
+                divInnerTags.classList.add("element__tags");
+                const ul = document.createElement("ul");
+                ul.classList.add("tags__list");
+                tagsList.forEach(tag => {
+                    const li = document.createElement("li");
+                    li.innerText = tag;
+                    ul.appendChild(li);
+                    li.addEventListener("click", (event) => {
+                        ul.removeChild(li);
+                    });
+                })
+                divInnerTags.appendChild(ul);
+                divOuter.appendChild(divInnerTags);
+
+                // Check if completed element
+                if(toDoAppData.containsCompleteElement(listName.toLowerCase(), element.toLowerCase())){
+                    divOuter.classList.add("completed-element");
+                    const tagsList = divOuter.querySelector(".tags__list");
+                    tagsList.classList.add("completed-tag");
+                }
+                }
+            };
+        }
+    }
+    else{
+        // Change list name in the main part of the application
+        const topbarListName = document.querySelector(".topbar h1");
+        topbarListName.innerText = "Please select a list";
     }
 }
 
@@ -579,8 +819,15 @@ function getClassList(){
 }
 
 // Update tag list selector
-function updateTagListSelector(){
-    let tagListSelector = document.getElementById("tags");
+function updateTagListSelector(divName){
+    let div = null;
+    if(divName === "topbar__input"){
+        div = document.querySelector(".topbar__input");
+    }
+    else if(divName === "topbar__filter"){
+        div = document.querySelector(".topbar__filter");
+    }
+    let tagListSelector = div.querySelector(".tags");
 
     // Check wether the selector is empty or not. If empty just add the all the tags if not check which one is new.
     if (tagListSelector.length === 0){
@@ -689,6 +936,9 @@ function addListElement(event){
             ul.classList.add("tags__list");
             tagsList.forEach(tag => {
                 ul.appendChild(tag);
+                li.addEventListener("click", (event) => {
+                    ul.removeChild(li);
+                });
             })
             divInnerTags.appendChild(ul);
             divOuter.appendChild(divInnerTags);
@@ -726,19 +976,53 @@ function deleteListElement(event){
     const list = document.querySelector(".topbar");
     const listName = list.querySelector("h1").innerText;
     toDoAppData.deleteElement(listName.toLowerCase(), elementName.toLowerCase());
+    if(toDoAppData.containsCompleteElement(listName.toLowerCase(), element.toLowerCase())){
+        toDoAppData.removeCompleteElement(listName.toLowerCase(), elementName.toLowerCase());
+    }
 }
 
 // Mark list element as completed element
 function completeElement(event){
+    const topbar = document.querySelector(".topbar");
+    const listName = topbar.querySelector("h1").innerText;
+    const elementName = event.currentTarget.parentNode.querySelector("li").innerText;
     const parent = event.currentTarget.parentNode.parentNode
     if(parent.classList.contains("completed-element")){
         parent.classList.remove("completed-element");
         const tagsList = parent.querySelector(".tags__list");
         tagsList.classList.remove("completed-tag");
+
+        // Remove complete element from the DOM
+        toDoAppData.removeCompleteElement(listName.toLocaleLowerCase(), elementName.toLowerCase());
     }
     else{
         parent.classList.add("completed-element");
         const tagsList = parent.querySelector(".tags__list");
         tagsList.classList.add("completed-tag");
+
+        // Add complete element to the DOM
+        toDoAppData.addCompleteElement(listName.toLocaleLowerCase(), elementName.toLowerCase());
+    }
+}
+
+// Scrolling back top
+function scrollTop(event){
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
+// Display scroll button only after scrolling a bit
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        scrollTopButton.style.visibility = "visible";
+        scrollTopButton.style.opacity = "1";
+        scrollTopButton.style.marginBottom = "1em";
+
+    } else {
+        scrollTopButton.style.visibility = "hidden";
+        scrollTopButton.style.marginBottom = "0";
+        scrollTopButton.style.opacity = "0";
     }
 }

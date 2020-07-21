@@ -51,6 +51,7 @@
 }
 
 html, body{
+    scroll-behavior: smooth;
     width: 100%;
     height: 100%;
     font-family: var(--nav-font);
@@ -239,7 +240,7 @@ button{
     color: #fff;
 }
 
-#tags{
+.tags{
     text-transform: capitalize;
 }
 
@@ -398,13 +399,49 @@ button{
     grid-area: button;
 }
 
-.tags__list{
-    /*
+.topbar__filter{
+    display: none;
+    padding: var(--margin-blocks);
+    background: var(--dark-purple-color);
+    border-bottom-left-radius: var(--border-radius-blocks);
+    border-bottom-right-radius: var(--border-radius-blocks);
+}
+
+.topbar__filter form{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-rows: 1fr auto;
     grid-gap: var(--margin-blocks);
-    justify-content: space-between;
-    */
+    align-content: center;
+}
+
+.filter-wrapper{
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: var(--margin-blocks);
+    grid-template-areas: "choose-tag button";
+    line-height: 2.5rem;
+    justify-content: space-around;
+}
+
+.filter-wrapper label, select{
+    height: 45px;
+    grid-area: choose-tag;
+    border-radius: var(--border-radius-circle);
+}
+
+.filter-wrapper select{
+    padding: 0em .6em;
+}
+
+.filter-wrapper select::-ms-expand{
+    display: none;
+}
+
+.filter-wrapper button{
+    grid-area: button;
+}
+
+.tags__list{
     display: flex;
     flex-wrap: wrap;
     list-style: none;
@@ -596,6 +633,44 @@ button{
 .element__tags{
     display: none;
     padding-top: var(--margin-blocks);
+}
+
+/* ___________ Back to top Button ____________ */
+
+
+.back-top-button {
+	position: fixed;
+	width: 50px;
+	height: 50px;
+	right: 0;
+	bottom: 0;
+	background: var(--pink-color);
+	margin: 0 1em 1em 0;
+    display: flex;
+    visibility: hidden;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+	animation: button-rotate 0.6s ease-in-out both;
+	transition: border-radius 0.3s, visibility 0.3s, opacity 0.3s, margin-bottom 0.3s ease-in-out;
+	z-index: 3;
+}
+
+.back-top-button:hover {
+    border-radius: 50px;
+	background: var(--yellow-color);
+}
+
+.back-top-button:hover > i{
+	transform: rotate(360deg);
+}
+
+.back-top-button i {
+	font-size: 2.3em;
+	color: white;
+	transition: transform 0.5s ease-in-out;
 }
 
 
