@@ -6,7 +6,7 @@ A responsive "To-do" web application.
 
 Using localStorage as a temporary solution to store the data.
 
-## GitHub Pages Link: [Web Application Preview](https://pavelescuvictor.github.io/ToDoApp/)
+## GitHub Pages Link: [Web Application Preview](https://pavelescuvictor.github.io/to-do-web-app/)
   
 ## Stack: 
 
