@@ -2,7 +2,7 @@
 
 ## Project Description:
 
-A "To Do" application written purely in vanilla JS responsive "To-do".
+A "To Do" application written purely in vanilla JS.
 
 Using localStorage as a temporary solution to store the data.
 
